@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Raphael Randschau"]
   s.email       = ["nicolai86@me.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Add a routes helper for all your haml_assets needs}
+  s.description = %q{Add a routes helper for all your haml_assets needs}
 
   s.rubyforge_project = "handlebars_routes_assets"
 
