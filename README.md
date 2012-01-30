@@ -33,7 +33,15 @@ If you don't want the attribute binding pass in whatever argument you like and t
 
     # application.js.coffee.erb
     userPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
+    
+But sometimes you want to generate the URL for a given resource on the client-side entirely. That's where asset\_pipeline\_routes comes in handy as well:
+
+    # application.js.coffee.erb
+    editUserRoute = `<%= r.edit_user_method %>` # => yields anonymous function
+    editUserPath = editUserRoute userId # => yields /user/<<id>>/edit
+    
+Now you have total control over your Rails routes.
 
 # Addendum
 
-Now, if you happen to use haml\_assets to be able to use HAML in your asset pipeline, you could easily create forms to be used in Backbone.js or similar - because you can add an url option which correctly binds to your context!
+If you happen to use haml\_assets to be able to use HAML in your asset pipeline, you could easily create forms to be used in Backbone.js or similar - because you can add an url option which correctly binds to your context!
