@@ -54,6 +54,6 @@ describe AssetPipelineRoutes do
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:user_method) }
-    its(:user_method) { should eql('(function() { return function (id) { return '/users/' + id }; }).call(this)();') }
+    its(:user_method) { should eql("(function() { return function (id) { return '/users/' + id }; }).call(this);") }
   end
 end

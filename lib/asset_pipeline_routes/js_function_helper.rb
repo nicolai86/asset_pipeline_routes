@@ -13,7 +13,7 @@ module AssetPipelineRoutes
           return function (#{function_arguments.join ', '}) { 
             return #{url_parts.zip(function_arguments).join(' + ')}
           }; 
-        }).call(this)();
+        }).call(this);
         JS
         function.gsub(/\s+/,' ').strip
       end
