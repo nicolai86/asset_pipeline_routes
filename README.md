@@ -20,21 +20,21 @@ Here's an example, assuming you got a routes.rb with
 
     resources :users # => yields multiple routes, e.g. /users/:id(.:format)
 
-in it. Then, in you're javascript file you'd call `r.users_path` instead of `users_path`. 
-The path fragments are replaced with Mustache-style attribute bindings by default:
+in it. Then, in you're javascript file you'd call `r.users_path`.  All path fragments are replaced with Mustache-style attribute bindings by default:
     
     # application.js.coffee.erb
     userPath = '<%= r.user_path %>' # => yields /users/{{id}}
     usersPath = '<%= r.users_path %>' # => yields /users
 
-You can even hook up member- or collection routes, whatever you like. Just prefix your routes with `r.` and you can directly use them in your view!
+You can even hook up member- or collection routes, whatever you like really. Just prefix your routes with `r.` and you can directly use them in your asset-pipeline!
 
-If you don't want the attribute binding pass in whatever argument you like and the path fragments get replaced. Just like that:
+The `*\_path`-methods take an arbitrary argument which is used to evaluate the final route. 
+So if you want a regexp matching all users-show actions, you can do it just like this:
 
     # application.js.coffee.erb
-    userPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
+    usersPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
     
-But sometimes you want to generate the URL for a given resource on the client-side entirely. That's where asset\_pipeline\_routes comes in handy as well:
+Sometimes you want to generate the URL for a given resource on the client-side entirely. That's possible as well:
 
     # application.js.coffee.erb
     editUserRoute = `<%= r.edit_user_method %>` # => yields anonymous function
