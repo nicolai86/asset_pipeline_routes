@@ -1,5 +1,5 @@
-module Sprockets
-  class Context
+module HandlebarsRoutesAssets
+  class RoutesContext
 
     def r
       @r ||= HandlebarsRoutesAssets::RoutesHelper.new(Rails.application.routes.routes)

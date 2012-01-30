@@ -1,6 +1,6 @@
 require "handlebars_routes_assets/version"
-require "handlebars_routes_assets/routes_helper"
 require "handlebars_routes_assets/routes_context"
+require "handlebars_routes_assets/routes_helper"
 
 module HandlebarsRoutesAssets
   class Railtie < ::Rails::Railtie
