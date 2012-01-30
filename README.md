@@ -38,7 +38,7 @@ But sometimes you want to generate the URL for a given resource on the client-si
 
     # application.js.coffee.erb
     editUserRoute = `<%= r.edit_user_method %>` # => yields anonymous function
-    editUserPath = editUserRoute userId # => yields /user/<<id>>/edit
+    editUserPath = editUserRoute(42) # => yields /user/42/edit
     
 Now you have total control over your Rails routes.
 
