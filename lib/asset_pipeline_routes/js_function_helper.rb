@@ -11,7 +11,7 @@ module AssetPipelineRoutes
         function = <<-JS 
         (function() { 
           return function (#{function_arguments.join ', '}) { 
-            return #{url_parts.zip(function_arguments).join(' + ')}
+            return #{url_parts.zip(function_arguments).flatten.reject{ |part| part.nil? }.join(' + ')}
           }; 
         }).call(this);
         JS

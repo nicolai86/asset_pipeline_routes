@@ -50,10 +50,10 @@ describe AssetPipelineRoutes do
   end
   
   describe 'javascript method generation' do
-    before { @route = build_route 'user', '/users/:id(.:format)' }
+    before { @route = build_route 'user', '/users/:id/edit(.:format)' }
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:user_method) }
-    its(:user_method) { should eql("(function() { return function (id) { return '/users/' + id }; }).call(this);") }
+    its(:edit_user_method) { should eql("(function() { return function (id) { return '/users/' + id + '/edit' }; }).call(this);") }
   end
 end
