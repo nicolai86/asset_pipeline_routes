@@ -1,5 +1,5 @@
 module HandlebarsRoutesAssets
-  class RoutesContext
+  module RoutesContext
 
     def r
       @r ||= HandlebarsRoutesAssets::RoutesHelper.new(Rails.application.routes.routes)
