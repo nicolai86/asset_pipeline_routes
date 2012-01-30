@@ -1,4 +1,6 @@
-module HandlebarsRoutesAssets
+require_relative "routes_context"
+
+module AssetPipelineRoutes
   class RoutesHelper
     def initialize(routes, default_block = '{{\1}}')
       routes.each do |route|

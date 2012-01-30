@@ -1,4 +1,4 @@
-# handlebars\_routes\_assets
+# asset\_pipeline\_routes
 
 Getting your Rails routes into the Rails 3.1 asset pipeline is really easy. Just
 `include Rails.application.routes.url_helpers` and you have all your routes available.

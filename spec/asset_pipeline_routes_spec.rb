@@ -4,12 +4,12 @@ def build_route name, path
   OpenStruct.new({:name => name, :path => OpenStruct.new(:ast => path)})
 end
 
-describe HandlebarsRoutesAssets do
+describe AssetPipelineRoutes do
   # the @route property basically describes a RouteSet#routes object
   # as Rails.application.routes.routes[:index] returns it
   describe 'resources#index' do
     before { @route = build_route 'users', '/users(.:format)' }
-    subject { HandlebarsRoutesAssets::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:users_path) }
     its(:users_path) { should eql '/users'}
@@ -18,7 +18,7 @@ describe HandlebarsRoutesAssets do
 
   describe 'resources#show' do
     before { @route = build_route 'user', '/users/:id(.:format)' }
-    subject { HandlebarsRoutesAssets::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:user_path) }
     its(:user_path) { should eql('/users/{{id}}') }
@@ -27,7 +27,7 @@ describe HandlebarsRoutesAssets do
 
   describe 'resources#edit' do
     before { @route = build_route 'edit_user', '/users/:id/edit(.:format)' }
-    subject { HandlebarsRoutesAssets::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:edit_user_path) }
     its(:edit_user_path) { should eql('/users/{{id}}/edit') }
@@ -36,7 +36,7 @@ describe HandlebarsRoutesAssets do
   
   describe 'resources without name' do
     before { @route = build_route nil, '/foo' }
-    subject { HandlebarsRoutesAssets::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
     
     it { subject.should_not_receive(:build_url) }
   end
