@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "asset_pipeline_routes/version"
 
 Gem::Specification.new do |s|
-  s.name        = "handlebars_routes_assets"
+  s.name        = "asset_pipeline_routes"
   s.version     = AssetPipelineRoutes::VERSION
   s.authors     = ["Raphael Randschau"]
   s.email       = ["nicolai86@me.com"]
