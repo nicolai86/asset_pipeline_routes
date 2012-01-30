@@ -28,7 +28,7 @@ in it. Then, in you're javascript file you'd call `r.users_path`.  All path frag
 
 You can even hook up member- or collection routes, whatever you like really. Just prefix your routes with `r.` and you can directly use them in your asset-pipeline!
 
-The `*\_path`-methods take an arbitrary argument which is used to evaluate the final route. 
+All `_path`-methods take an arbitrary argument which is used to evaluate the final route. 
 So if you want a regexp matching all users-show actions, you can do it just like this:
 
     # application.js.coffee.erb
