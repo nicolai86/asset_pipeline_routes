@@ -21,7 +21,7 @@ describe HandlebarsRoutesAssets do
 
     it { should respond_to(:user_path) }
     its(:user_path) { should eql('/users/{{id}}') }
-    it { subject.user_path.should eql('/users/{{id}}') }
+    it { subject.user_path('\d+').should eql('/users/\d+') }
   end
 
   describe 'resources#edit' do
