@@ -5,10 +5,7 @@ module HandlebarsRoutesAssets
         next if route.name.nil? # only handle named_routes
         
         self.class.instance_eval do
-          define_method :"#{route.name}_path" do |mapping = default_block |
-            build_url route, mapping
-          end
-          define_method :"#{route.name}_gsub_path" do |id_replacement|
+          define_method :"#{route.name}_path" do |id_replacement = default_block|
             proc { |route, mapping| build_url route, mapping }.curry[route].call id_replacement
           end
         end
