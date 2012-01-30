@@ -1,6 +1,6 @@
 # asset\_pipeline\_routes
 
-Getting your Rails routes into the Rails 3.1 asset pipeline is really easy. Just
+Getting your Rails routes into the Rails 3.2 asset pipeline is really easy. Just
 `include Rails.application.routes.url_helpers` and you have all your routes available.
 
 But except for hard-coded links this won't help you, because all resource links dynamic params at compile-time to work, like `{:id => 42}`. Without supplying them you won't get anywhere.
