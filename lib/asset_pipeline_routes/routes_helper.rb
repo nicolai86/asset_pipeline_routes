@@ -1,4 +1,5 @@
 require_relative "routes_context"
+require_relative "js_function_helper"
 
 module AssetPipelineRoutes
   class RoutesHelper

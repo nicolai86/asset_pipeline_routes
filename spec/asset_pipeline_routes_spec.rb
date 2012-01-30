@@ -48,4 +48,12 @@ describe AssetPipelineRoutes do
     it { should respond_to(:project_ticket_path) }
     its(:project_ticket_path) { should eql('/projects/{{project_id}}/tickets/{{id}}') }
   end
+  
+  describe 'javascript method generation' do
+    before { @route = build_route 'user', '/users/:id(.:format)' }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+
+    it { should respond_to(:user_method) }
+    its(:user_method) { should eql('(function() { return function (id) { return '/users/' + id }; }).call(this)();') }
+  end
 end
