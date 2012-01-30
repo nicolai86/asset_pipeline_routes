@@ -13,6 +13,7 @@ describe HandlebarsRoutesAssets do
 
     it { should respond_to(:users_path) }
     its(:users_path) { should eql '/users'}
+    it { subject.users_path('\d+').should eql('/users') }
   end
 
   describe 'resources#show' do
@@ -30,6 +31,7 @@ describe HandlebarsRoutesAssets do
 
     it { should respond_to(:edit_user_path) }
     its(:edit_user_path) { should eql('/users/{{id}}/edit') }
+    it { subject.edit_user_path('\d+').should eql('/users/\d+/edit') }
   end
   
   describe 'resources without name' do
