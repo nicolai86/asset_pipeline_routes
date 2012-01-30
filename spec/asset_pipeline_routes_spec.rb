@@ -40,4 +40,12 @@ describe AssetPipelineRoutes do
     
     it { subject.should_not_receive(:build_url) }
   end
+  
+  describe 'nested routes' do
+    before { @route = build_route 'project_ticket', '/projects/:project_id/tickets/:id(.:format)' }
+    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    
+    it { should respond_to(:project_ticket_path) }
+    its(:project_ticket_path) { should eql('/projects/{{project_id}}/tickets/{{id}}') }
+  end
 end

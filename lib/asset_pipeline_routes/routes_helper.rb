@@ -10,6 +10,10 @@ module AssetPipelineRoutes
           define_method :"#{route.name}_path" do |id_replacement = default_block|
             proc { |route, mapping| build_url route, mapping }.curry[route].call id_replacement
           end
+          
+          define_method :"#{route.name}_method" do 
+            AssetPipelineRoutes::JsFunctionHelper::route_to_anonymous_function build_url route, ':\1'
+          end
         end
       end
     end
