@@ -12,7 +12,7 @@ module HandlebarsRoutesAssets
     end
 
     def build_url route, mapping
-      route.path.to_s.gsub(/\(\.:\w+\)/,'').gsub(/:(\w+)/, mapping).to_s
+      route.path.ast.gsub(/\(\.:\w+\)/,'').gsub(/:(\w+)/, mapping).to_s
     end
   end
 end
