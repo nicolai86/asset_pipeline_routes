@@ -20,14 +20,19 @@ Here's an example, assuming you got a routes.rb with
 
     resources :users # => yields multiple routes, e.g. /users/:id(.:format)
 
-in it. Then, in you're javascript file you'd call `r.users_path` instead of `users_path`. The path fragments are replaced with Mustache-style attribute bindings by default:
-
-    r.user_path # => yields /users/{{id}}
-    r.users_path # => yields /users
+in it. Then, in you're javascript file you'd call `r.users_path` instead of `users_path`. 
+The path fragments are replaced with Mustache-style attribute bindings by default:
+    
+    # application.js.coffee.erb
+    userPath = '<%= r.user_path %>' # => yields /users/{{id}}
+    usersPath = '<%= r.users_path %>' # => yields /users
 
 You can even hook up member- or collection routes, whatever you like. Just prefix your routes with `r.` and you can directly use them in your view!
 
-If you don't want the attribute binding pass in whatever argument you like and the path fragments get replaced. Just like that.
+If you don't want the attribute binding pass in whatever argument you like and the path fragments get replaced. Just like that:
+
+    # application.js.coffee.erb
+    userPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
 
 # Addendum
 
