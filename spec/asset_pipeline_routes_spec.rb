@@ -33,27 +33,34 @@ describe AssetPipelineRoutes do
     its(:edit_user_path) { should eql('/users/{{id}}/edit') }
     it { subject.edit_user_path('\d+').should eql('/users/\d+/edit') }
   end
-  
+
   describe 'resources without name' do
     before { @route = build_route nil, '/foo' }
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
-    
+
     it { subject.should_not_receive(:build_url) }
   end
-  
+
   describe 'nested routes' do
     before { @route = build_route 'project_ticket', '/projects/:project_id/tickets/:id(.:format)' }
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
-    
+
     it { should respond_to(:project_ticket_path) }
     its(:project_ticket_path) { should eql('/projects/{{project_id}}/tickets/{{id}}') }
   end
-  
+
   describe 'javascript method generation' do
     before { @route = build_route 'user', '/users/:id/edit(.:format)' }
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
-    it { should respond_to(:user_method) }
-    its(:edit_user_method) { should eql("(function() { return function (id) { return '/users/' + id + '/edit' }; }).call(this);") }
+    it { should respond_to(:user_path_method) }
+    it "should generate JavaScript mapping method" do
+      js_method = "(function() { return function (id) { return '/users/' + id + '/edit' }; }).call(this);"
+      subject.edit_user_path_method.should eql(js_method)
+    end
+    it "should generate CoffeScript mapping method" do
+      coffee_method = "(-> (id) -> '/users/' + id + '/edit')(this)"
+      subject.edit_user_path_method(:coffee).should eql(coffee_method)
+    end
   end
 end

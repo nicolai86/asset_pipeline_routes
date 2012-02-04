@@ -6,14 +6,14 @@ module AssetPipelineRoutes
     def initialize(routes, default_block = '{{\1}}')
       routes.each do |route|
         next if route.name.nil? # only handle named_routes
-        
+
         self.class.instance_eval do
           define_method :"#{route.name}_path" do |id_replacement = default_block|
             proc { |route, mapping| build_url route, mapping }.curry[route].call id_replacement
           end
-          
-          define_method :"#{route.name}_method" do 
-            AssetPipelineRoutes::JsFunctionHelper::route_to_anonymous_function build_url route, ':\1'
+
+          define_method :"#{route.name}_path_method" do |style = :js|
+            AssetPipelineRoutes::JsFunctionHelper::route_to_anonymous_function build_url(route, ':\1'), style
           end
         end
       end
