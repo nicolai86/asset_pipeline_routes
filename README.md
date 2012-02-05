@@ -21,25 +21,30 @@ Here's an example, assuming you got a routes.rb with
     resources :users # => yields multiple routes, e.g. /users/:id(.:format)
 
 in it. Then, in you're javascript file you'd call `r.users_path`.  All path fragments are replaced with Mustache-style attribute bindings by default:
-    
+
     # application.js.coffee.erb
     userPath = '<%= r.user_path %>' # => yields /users/{{id}}
     usersPath = '<%= r.users_path %>' # => yields /users
 
 You can even hook up member- or collection routes, whatever you like really. Just prefix your routes with `r.` and you can directly use them in your asset-pipeline!
 
-All `_path`-methods take an arbitrary argument which is used to evaluate the final route. 
+All `_path`-methods take an arbitrary argument which is used to evaluate the final route.
 So if you want a regexp matching all users-show actions, you can do it just like this:
 
     # application.js.coffee.erb
     usersPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
-    
+
 Sometimes you want to generate the URL for a given resource on the client-side entirely. That's possible as well:
 
+    # application.js.erb
+    var editUserRoute = <%= r.edit_user_path_method %>; // => yields anonymous function in js
+    var editUserPath = editUserRoute(42); // => yields '/users/42/edit'
+
+    # or, if you prefer CoffeeScript:
     # application.js.coffee.erb
-    editUserRoute = `<%= r.edit_user_method %>` # => yields anonymous function
-    editUserPath = editUserRoute(42) # => yields /users/42/edit
-    
+    editUserPath <%= r.edit_user_path_method(:coffee) %>
+    editUserPath = editUserRoute(42) # => yields '/users/42/edit'
+
 Now you have total control over your Rails routes.
 
 # Addendum
