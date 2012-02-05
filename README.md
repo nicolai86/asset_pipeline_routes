@@ -3,7 +3,7 @@
 Getting your Rails routes into the Rails 3.2 asset pipeline is really easy. Just
 `include Rails.application.routes.url_helpers` and you have all your routes available.
 
-But except for hard-coded links this won't help you, because all resource links dynamic params at compile-time to work, like `{:id => 42}`. Without supplying them you won't get anywhere.
+But except for hard-coded links this won't help you, because in production you have to pass in resource parameters at compile-time, where they are not available.
 
 Heh, you might think! Just call a route helper and pass in a dynamic parameter mapping, like
 `user_path('{{id}}')`. Sadly this won't yield the desired result! Instead of `/users/{{id}}`, you'll be presented with `/users/%7B%7Bid%7D%7D` because you're mapping just got html_escaped!
