@@ -42,7 +42,7 @@ Sometimes you want to generate the URL for a given resource on the client-side e
 
     # or, if you prefer CoffeeScript:
     # application.js.coffee.erb
-    editUserPath <%= r.edit_user_path_method(:coffee) %>
+    editUserPath = <%= r.edit_user_path_method(:coffee) %>
     editUserPath = editUserRoute(42) # => yields '/users/42/edit'
 
 Now you have total control over your Rails routes.
