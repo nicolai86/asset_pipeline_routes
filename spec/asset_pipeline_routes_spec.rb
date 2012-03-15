@@ -14,6 +14,10 @@ describe AssetPipelineRoutes do
     it { should respond_to(:users_path) }
     its(:users_path) { should eql '/users'}
     it { subject.users_path('\d+').should eql('/users') }
+
+    describe "with format" do
+      it { subject.users_path(format: 'json').should eql('/users.json') }
+    end
   end
 
   describe 'resources#show' do
@@ -23,6 +27,11 @@ describe AssetPipelineRoutes do
     it { should respond_to(:user_path) }
     its(:user_path) { should eql('/users/{{id}}') }
     it { subject.user_path('\d+').should eql('/users/\d+') }
+
+    describe "with format" do
+      it { subject.user_path('\d+', format: 'json').should eql('/users/\d+.json') }
+      it { subject.user_path(42, format: 'xml').should eql('/users/42.xml') }
+    end
   end
 
   describe 'resources#edit' do
@@ -32,6 +41,11 @@ describe AssetPipelineRoutes do
     it { should respond_to(:edit_user_path) }
     its(:edit_user_path) { should eql('/users/{{id}}/edit') }
     it { subject.edit_user_path('\d+').should eql('/users/\d+/edit') }
+
+    describe "with format" do
+      it { subject.edit_user_path('\d+', format: 'json').should eql('/users/\d+/edit.json') }
+      it { subject.edit_user_path(42, format: 'xml').should eql('/users/42/edit.xml') }
+    end
   end
 
   describe 'resources without name' do
@@ -46,7 +60,16 @@ describe AssetPipelineRoutes do
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:project_ticket_path) }
-    its(:project_ticket_path) { should eql('/projects/{{project_id}}/tickets/{{id}}') }
+    its(:project_ticket_path) {should eql('/projects/{{project_id}}/tickets/{{id}}') }
+    it { subject.project_ticket_path(1,'\d+').should eql('/projects/1/tickets/\d+') }
+    it { subject.project_ticket_path('\d+',2).should eql('/projects/\d+/tickets/2') }
+    it { subject.project_ticket_path(1,2).should eql('/projects/1/tickets/2') }
+    it { subject.project_ticket_path(1,2,3).should eql('/projects/1/tickets/2') }
+
+    describe "with format" do
+      it { subject.project_ticket_path("a","b",format: 'json').should eql('/projects/a/tickets/b.json') }
+      it { subject.project_ticket_path("a", format: 'json').should eql('/projects/a/tickets/{{id}}.json') }
+    end
   end
 
   describe 'javascript method generation' do
@@ -54,13 +77,39 @@ describe AssetPipelineRoutes do
     subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
 
     it { should respond_to(:user_path_method) }
+
     it "should generate JavaScript mapping method" do
       js_method = "(function() { return function (id) { return '/users/' + id + '/edit' }; }).call(this);"
       subject.edit_user_path_method.should eql(js_method)
     end
+
     it "should generate CoffeScript mapping method" do
       coffee_method = "(-> (id) -> '/users/' + id + '/edit')(this)"
       subject.edit_user_path_method(:coffee).should eql(coffee_method)
+    end
+  end
+
+  describe 'helper methods' do
+    subject { AssetPipelineRoutes::RoutesHelper.new [] }
+
+    describe 'number_of_replacements_in' do
+      it { subject.number_of_replacements_in("/a/:1").should == 1 }
+      it { subject.number_of_replacements_in("/a/:1/b/:2").should == 2 }
+    end
+
+    describe 'default_replacements' do
+      it { subject.default_replacements("/a/:1").should eql [AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT] }
+      it { subject.default_replacements("/a/:1/b/:2").should eql Array.new(2, AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT) }
+    end
+
+    describe 'format' do
+      it { subject.format({format: 'json'}).should eql '.json' }
+      it { subject.format({}).should eql '' }
+    end
+
+    describe 'replacements' do
+      it { subject.replacements("/a/:a", 1).should eql [1] }
+      it { subject.replacements("/a/:a/b/:b", 1).should eql [1, AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT] }
     end
   end
 end
