@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'active_support/core_ext/string/inflections'
 
 module AssetPipelineRoutes

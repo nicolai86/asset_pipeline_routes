@@ -4,12 +4,12 @@ def build_route name, path
   OpenStruct.new({:name => name, :path => OpenStruct.new(:ast => path)})
 end
 
-describe AssetPipelineRoutes do
+describe AssetPipelineRoutes::Routes do
   # the @route property basically describes a RouteSet#routes object
   # as Rails.application.routes.routes[:index] returns it
   describe 'resources#index' do
     before { @route = build_route 'users', '/users(.:format)' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::Routes.new [@route] }
 
     it { should respond_to(:users_path) }
     its(:users_path) { should eql '/users'}
@@ -22,7 +22,7 @@ describe AssetPipelineRoutes do
 
   describe 'resources#show' do
     before { @route = build_route 'user', '/users/:id(.:format)' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::Routes.new [@route] }
 
     it { should respond_to(:user_path) }
     its(:user_path) { should eql('/users/{{id}}') }
@@ -36,7 +36,7 @@ describe AssetPipelineRoutes do
 
   describe 'resources#edit' do
     before { @route = build_route 'edit_user', '/users/:id/edit(.:format)' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::Routes.new [@route] }
 
     it { should respond_to(:edit_user_path) }
     its(:edit_user_path) { should eql('/users/{{id}}/edit') }
@@ -48,16 +48,9 @@ describe AssetPipelineRoutes do
     end
   end
 
-  describe 'resources without name' do
-    before { @route = build_route nil, '/foo' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
-
-    it { subject.should_not_receive(:build_url) }
-  end
-
   describe 'nested routes' do
     before { @route = build_route 'project_ticket', '/projects/:project_id/tickets/:id(.:format)' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::Routes.new [@route] }
 
     it { should respond_to(:project_ticket_path) }
     its(:project_ticket_path) {should eql('/projects/{{project_id}}/tickets/{{id}}') }
@@ -74,7 +67,7 @@ describe AssetPipelineRoutes do
 
   describe 'javascript method generation' do
     before { @route = build_route 'user', '/users/:id/edit(.:format)' }
-    subject { AssetPipelineRoutes::RoutesHelper.new [@route] }
+    subject { AssetPipelineRoutes::Routes.new [@route] }
 
     it { should respond_to(:user_path_method) }
 
@@ -86,30 +79,6 @@ describe AssetPipelineRoutes do
     it "should generate CoffeScript mapping method" do
       coffee_method = "(-> (id) -> '/users/' + id + '/edit')(this)"
       subject.edit_user_path_method(:coffee).should eql(coffee_method)
-    end
-  end
-
-  describe 'helper methods' do
-    subject { AssetPipelineRoutes::RoutesHelper.new [] }
-
-    describe 'number_of_replacements_in' do
-      it { subject.number_of_replacements_in("/a/:1").should == 1 }
-      it { subject.number_of_replacements_in("/a/:1/b/:2").should == 2 }
-    end
-
-    describe 'default_replacements' do
-      it { subject.default_replacements("/a/:1").should eql [AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT] }
-      it { subject.default_replacements("/a/:1/b/:2").should eql Array.new(2, AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT) }
-    end
-
-    describe 'format' do
-      it { subject.format({format: 'json'}).should eql '.json' }
-      it { subject.format({}).should eql '' }
-    end
-
-    describe 'replacements' do
-      it { subject.replacements("/a/:a", 1).should eql [1] }
-      it { subject.replacements("/a/:a/b/:b", 1).should eql [1, AssetPipelineRoutes::RoutesHelper::DEFAULT_REPLACEMENT] }
     end
   end
 end

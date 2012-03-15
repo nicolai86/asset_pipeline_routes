@@ -1,9 +1,8 @@
+# encoding: UTF-8
 module AssetPipelineRoutes
   module RoutesContext
-
     def r
-      @r ||= ::AssetPipelineRoutes::RoutesHelper.new(Rails.application.routes.routes)
+      @r ||= ::AssetPipelineRoutes::Routes.new(Rails.application.routes.routes)
     end
-
   end
 end
