@@ -1,10 +1,6 @@
 # encoding: UTF-8
 require "active_support/core_ext/array/extract_options"
 
-require_relative "routes_context"
-require_relative "js_function_helper"
-require_relative "path"
-
 module AssetPipelineRoutes
   class Routes
     def initialize routes
@@ -22,7 +18,7 @@ module AssetPipelineRoutes
         define_method :"#{route.name}_path", Path.proc_for_route(route)
 
         define_method :"#{route.name}_path_method" do |style = :js|
-          AssetPipelineRoutes::JsFunctionHelper::route_to_anonymous_function Path.new(route.path.ast.to_s).build(':\1'), style
+          JsFunctionHelper::route_to_anonymous_function Path.new(route.path.ast.to_s).build(':\1'), style
         end
       end
     end

@@ -3,9 +3,7 @@ require 'active_support/core_ext/string/inflections'
 
 module AssetPipelineRoutes
   module JsFunctionHelper
-    extend self
-
-    def route_to_anonymous_function route, style = :js
+    def self.route_to_anonymous_function route, style = :js
       function_arguments = route.scan(/:(\w+)/).flatten.map { |param|
         param.camelcase(:lower)
       }

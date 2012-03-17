@@ -2,7 +2,7 @@
 module AssetPipelineRoutes
   module RoutesContext
     def r
-      @r ||= ::AssetPipelineRoutes::Routes.new(Rails.application.routes.routes)
+      @r ||= Routes.new(Rails.application.routes.routes)
     end
   end
 end
