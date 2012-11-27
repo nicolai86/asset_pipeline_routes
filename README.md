@@ -50,3 +50,8 @@ Now you have total control over your Rails routes.
 # Addendum
 
 If you happen to use haml\_assets to be able to use HAML in your asset pipeline, you could easily create forms to be used in Backbone.js or similar - because you can add an url option which correctly binds to your context!
+
+# License
+Copyright © 2011 Raphael Randschau <nicolai86@me.com>
+
+asset\_pipeline\_routes is distributed under an MIT-style license. See LICENSE for details.
