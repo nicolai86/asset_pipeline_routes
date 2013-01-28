@@ -18,7 +18,8 @@ module AssetPipelineRoutes
         define_method :"#{route.name}_path", Path.proc_for_route(route)
 
         define_method :"#{route.name}_path_method" do |style = :js|
-          JsFunctionHelper::route_to_anonymous_function Path.new(route.path.ast.to_s).build(':\1'), style
+          path = Path.new(route.path.ast.to_s)
+          JsFunctionHelper::route_to_anonymous_function(path.build(*Array.new(path.number_of_replacements, ':\1')), style)
         end
       end
     end

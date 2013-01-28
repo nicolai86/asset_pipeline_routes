@@ -80,5 +80,20 @@ describe AssetPipelineRoutes::Routes do
       coffee_method = "(-> (id) -> '/users/' + id + '/edit')(this)"
       subject.edit_user_path_method(:coffee).should eql(coffee_method)
     end
+
+    context 'nested routes' do
+      before { @route = build_route 'project_ticket', '/projects/:project_id/tickets/:id(.:format)' }
+      subject { AssetPipelineRoutes::Routes.new [@route] }
+
+      it "should generate CoffeScript mapping method" do
+        coffee_method = "(-> (projectId, id) -> '/projects/' + projectId + '/tickets/' + id)(this)"
+        subject.project_ticket_path_method(:coffee).should eql(coffee_method)
+      end
+
+      it "should generate JavaScript mapping method" do
+        js_method = "(function() { return function (projectId, id) { return '/projects/' + projectId + '/tickets/' + id }; }).call(this);"
+        subject.project_ticket_path_method.should eql(js_method)
+      end
+    end
   end
 end
