@@ -1,5 +1,7 @@
 # asset\_pipeline\_routes
 
+[![Build Status](https://travis-ci.org/leahpar/asset_pipeline_routes.png?branch=master)](https://travis-ci.org/leahpar/asset_pipeline_routes)
+
 Getting your Rails routes into the Rails 3.2 asset pipeline is really easy. Just
 `include Rails.application.routes.url_helpers` and you have all your routes available.
 
