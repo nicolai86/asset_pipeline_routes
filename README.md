@@ -1,6 +1,6 @@
 # asset\_pipeline\_routes
 
-[![Build Status](https://travis-ci.org/leahpar/asset_pipeline_routes.png?branch=master)](https://travis-ci.org/leahpar/asset_pipeline_routes)
+[![Build Status](https://travis-ci.org/nicolai86/asset_pipeline_routes.png?branch=master)](https://travis-ci.org/nicolai86/asset_pipeline_routes)
 
 `asset_pipeline_routes` defines a `r` shorthand function which you can use inside your javascript assets.
 
