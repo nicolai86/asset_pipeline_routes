@@ -7,7 +7,8 @@ Gem::Specification.new do |s|
   s.version     = AssetPipelineRoutes::VERSION
   s.authors     = ["Raphael Randschau"]
   s.email       = ["nicolai86@me.com"]
-  s.homepage    = ""
+  s.licenses    = ["MIT"]
+  s.homepage    = "http://blog.nicolai86.eu"
   s.summary     = %q{Add a routes helper for all asset pipeline needs}
   s.description = %q{Add a routes helper for all asset pipeline needs}
 
