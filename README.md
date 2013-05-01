@@ -14,21 +14,18 @@ This is where asset\_pipeline\_routes comes to the rescue!
 
 # What it does
 
-It adds a helper object to your asset-pipeline called `r`. Using
-`r` you can access all your routes you'd normally do, except that all those path fragments
-can be changed to whatever you need them to.
+Just like asset-path helper for your assets, asset_pipeline_routes adds `r`. You pass `r` the name of the route, and optionally url or path as second parameter.
 
 Here's an example, assuming you got a routes.rb with
 
     resources :users # => yields multiple routes, e.g. /users/:id(.:format)
 
-in it. Then, in you're javascript file you'd call `r.users_path`.  All path fragments are replaced with Mustache-style attribute bindings by default:
+in it. Then, in you're javascript file you'd use it like this:
 
-    # application.js.coffee.erb
-    userPath = '<%= r.user_path %>' # => yields /users/{{id}}
-    usersPath = '<%= r.users_path %>' # => yields /users
-
-You can even hook up member- or collection routes, whatever you like really. Just prefix your routes with `r.` and you can directly use them in your asset-pipeline!
+``` javascript
+var userPath = r(user, path); # yields /users/{{id}}
+var userUrl = r(user, url); # yields window.location.host/users/{{id}}
+```
 
 All `_path`-methods take an arbitrary argument which is used to evaluate the final route.
 So if you want a regexp matching all users-show actions, you can do it just like this:
