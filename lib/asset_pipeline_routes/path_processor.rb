@@ -11,19 +11,27 @@ module AssetPipelineRoutes
     end
 
     def evaluate context, locals
-      data.gsub /[^[[:word:]]]r\(([[:word:]]+),?(.*)\)/ do |match|
-        parts = $2.split(',').map(&:strip).reject(&:blank?)
-        route = $1.to_sym
-
-        wrap = (match[0] == '(')
+      re = %r{
+        (?<=[^[[:word:]]])r(?<re>
+          \(
+            (?:
+              (?> [^()]+ )
+              |
+              \g<re>
+            )*
+          \)
+        )
+      }x
+      data.gsub re do |match|
+        str = match[2..-2]
+        parts = str.split(',').map(&:strip).reject(&:blank?)
+        route = parts.shift.to_sym
 
         expanded = if r.respond_to? route
           r.send route, *parts
         else
           "''"
         end
-
-        wrap ? "(#{expanded})" : expanded
       end
     end
   end

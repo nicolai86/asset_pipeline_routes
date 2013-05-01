@@ -1,0 +1,1 @@
+console.log(r(project_ticket_path))
