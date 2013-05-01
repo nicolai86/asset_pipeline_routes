@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require 'sprockets/processor'
-
+require 'active_support/core_ext/object/blank'
 module AssetPipelineRoutes
   class PathProcessor < ::Sprockets::Processor
     def r
@@ -11,15 +11,19 @@ module AssetPipelineRoutes
     end
 
     def evaluate context, locals
-      data.gsub /[^\w]r\((.+)\)/ do |match|
-        parts = $1.split(',').map(&:strip)
-        route = parts.shift.to_sym
+      data.gsub /[^[[:word:]]]r\(([[:word:]]+),?(.*)\)/ do |match|
+        parts = $2.split(',').map(&:strip).reject(&:blank?)
+        route = $1.to_sym
 
-        if r.respond_to? route
+        wrap = match[0] == '('
+
+        expanded = if r.respond_to? route
           r.send route, *parts
         else
           "''"
         end
+
+        wrap ? "(#{expanded})" : expanded
       end
     end
   end

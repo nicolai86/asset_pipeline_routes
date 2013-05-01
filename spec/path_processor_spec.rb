@@ -52,4 +52,12 @@ describe AssetPipelineRoutes::PathProcessor do
   it "does not replace false positives" do
     @env['false_positive.js'].to_s.should == "var x = receiver(y);\n";
   end
+
+  it "works as function argument" do
+    @env["function_argument.js"].to_s.should == "var url = receiver('/users');\n"
+  end
+
+  it "works with function argument" do
+    @env["argument_function.js"].to_s.should == "var url ='/users/'+fetchUserId()+'';\n"
+  end
 end
