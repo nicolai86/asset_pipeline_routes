@@ -15,7 +15,7 @@ module AssetPipelineRoutes
         parts = $2.split(',').map(&:strip).reject(&:blank?)
         route = $1.to_sym
 
-        wrap = match[0] == '('
+        wrap = (match[0] == '(')
 
         expanded = if r.respond_to? route
           r.send route, *parts
