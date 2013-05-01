@@ -11,7 +11,7 @@ module AssetPipelineRoutes
     end
 
     def evaluate context, locals
-      data.gsub /r\((.+)\)/ do |match|
+      data.gsub /[^\w]r\((.+)\)/ do |match|
         parts = $1.split(',').map(&:strip)
         route = parts.shift.to_sym
 

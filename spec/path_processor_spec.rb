@@ -26,15 +26,15 @@ describe AssetPipelineRoutes::PathProcessor do
   end
 
   it "replaces calls to r() with route" do
-    @env['simple_route.js'].to_s.should == "var Bar = '/users';\n"
+    @env['simple_route.js'].to_s.should == "var Bar ='/users';\n"
   end
 
   it "replaces calls with unknown route to ''" do
-    @env['unknown_route.js'].to_s.should == "var Bar = '';\n"
+    @env['unknown_route.js'].to_s.should == "var Bar ='';\n"
   end
 
   it "works with variables" do
-    @env['simple_route_with_variable.js'].to_s.should == "var x = 2;\nvar Bar = '/users/'+x+'';\n"
+    @env['simple_route_with_variable.js'].to_s.should == "var x = 2;\nvar Bar ='/users/'+x+'';\n"
   end
 
   it "works with coffeescript" do
@@ -42,10 +42,14 @@ describe AssetPipelineRoutes::PathProcessor do
   end
 
   it "works with unqualified routes" do
-    @env['unqualified_routes.js'].to_s.should == "var url = '/users/{{id}}';\n"
+    @env['unqualified_routes.js'].to_s.should == "var url ='/users/{{id}}';\n"
   end
 
   it "works with partially qualified nested routes" do
-    @env['nested_routes.js'].to_s.should == "var project_path = '/projects/'+2+'/tickets/{{id}}';\n"
+    @env['nested_routes.js'].to_s.should == "var project_path ='/projects/'+2+'/tickets/{{id}}';\n"
+  end
+
+  it "does not replace false positives" do
+    @env['false_positive.js'].to_s.should == "var x = receiver(y);\n";
   end
 end
