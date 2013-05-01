@@ -26,7 +26,7 @@ describe AssetPipelineRoutes::Path do
 
     describe 'replacements' do
       it { subject.replacements().should eql subject.default_replacements }
-      it { subject.replacements(1).should eql [1] }
+      it { subject.replacements(1).should eql ["'+1+'"] }
     end
   end
 end

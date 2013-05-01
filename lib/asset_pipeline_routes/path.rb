@@ -23,9 +23,10 @@ module AssetPipelineRoutes
 
     def build *args
       apply_format args.extract_options!
-      replacements(*args).inject(@route) { |route, param|
+      clean = replacements(*args).inject(@route) { |route, param|
         route.sub(/:(\w+)/, param.to_s)
       }
+      return "'#{clean}'"
     end
 
     def format options
@@ -40,7 +41,7 @@ module AssetPipelineRoutes
 
     def replacements *args
       defaults = default_replacements
-      defaults[0...args.length] = args
+      defaults[0...args.length] = args.map { |item| (item != DEFAULT_REPLACEMENT) ? "'+#{item}+'" : item }
       defaults
     end
 

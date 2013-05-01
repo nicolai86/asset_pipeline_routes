@@ -1,0 +1,1 @@
+var project_path = r(project_ticket_path, 2);

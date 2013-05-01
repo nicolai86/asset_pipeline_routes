@@ -2,55 +2,59 @@
 
 [![Build Status](https://travis-ci.org/leahpar/asset_pipeline_routes.png?branch=master)](https://travis-ci.org/leahpar/asset_pipeline_routes)
 
-Getting your Rails routes into the Rails 3.2 asset pipeline is really easy. Just
-`include Rails.application.routes.url_helpers` and you have all your routes available.
+`asset_pipeline_routes` defines a `r` shorthand function which you can use inside your javascript assets.
 
-But except for hard-coded links this won't help you, because in production you have to pass in resource parameters at compile-time, where they are not available.
+## What it does
 
-Heh, you might think! Just call a route helper and pass in a dynamic parameter mapping, like
-`user_path('{{id}}')`. Sadly this won't yield the desired result! Instead of `/users/{{id}}`, you'll be presented with `/users/%7B%7Bid%7D%7D` because you're mapping just got html_escaped!
+Assuming you got a `routes.rb` with:
 
-This is where asset\_pipeline\_routes comes to the rescue!
-
-# What it does
-
-Just like asset-path helper for your assets, asset_pipeline_routes adds `r`. You pass `r` the name of the route, and optionally url or path as second parameter.
-
-Here's an example, assuming you got a routes.rb with
-
-    resources :users # => yields multiple routes, e.g. /users/:id(.:format)
-
-in it. Then, in you're javascript file you'd use it like this:
-
-``` javascript
-var userPath = r(user, path); # yields /users/{{id}}
-var userUrl = r(user, url); # yields window.location.host/users/{{id}}
+``` ruby
+resources :users # => yields multiple routes, e.g. /users/:id(.:format)
 ```
 
-All `_path`-methods take an arbitrary argument which is used to evaluate the final route.
-So if you want a regexp matching all users-show actions, you can do it just like this:
+Inside your javascript assets you can now write:
 
-    # application.js.coffee.erb
-    usersPath = '<%= r.user_path '\d+' %>' # => yields /users/\d+
+``` javascript
+r(users_path)        // => yields '/users'
+r(user_path)         // => yields '/users/{{id}}'
+r(user_path, userId) // => yields '/users/'+userId
+```
 
-Sometimes you want to generate the URL for a given resource on the client-side entirely. That's possible as well:
+It works with coffeescript as well:
 
-    # application.js.erb
-    var editUserRoute = <%= r.edit_user_path_method %>; // => yields anonymous function in js
-    var editUserPath = editUserRoute(42); // => yields '/users/42/edit'
+``` coffeescript
+promise = $.rails.ajax({
+  url: r(user_path, userId)
+})
+```
 
-    # or, if you prefer CoffeeScript:
-    # application.js.coffee.erb
-    editUserPath = <%= r.edit_user_path_method(:coffee) %>
-    editUserPath = editUserRoute(42) # => yields '/users/42/edit'
+If you are compiling client side templates with the rails asset pipeline this works inside templates as well, e.g.
 
-Now you have total control over your Rails routes.
+``` hamlbars
+%form{ action: r(user_path) }
+```
+will generate
+``` html
+<form action='/users/{{id}}'></form>
+```
 
-# Addendum
+## Upgrading Notes
 
-If you happen to use haml\_assets to be able to use HAML in your asset pipeline, you could easily create forms to be used in Backbone.js or similar - because you can add an url option which correctly binds to your context!
+*v0.2* introduced code breaking changes!
+**THIS WILL NO LONGER WORK**
+
+``` erb
+// inside application.js.erb
+var url = '<%= r.user_path 42 %>';
+```
+
+Instead, you can now drop the `.erb` extension and use r inline:
+
+``` javascript
+var url = r(user_path, 42);
+```
 
 # License
-Copyright © 2011 Raphael Randschau <nicolai86@me.com>
+Copyright © 2011-2013 Raphael Randschau <nicolai86@me.com>
 
 asset\_pipeline\_routes is distributed under an MIT-style license. See LICENSE for details.

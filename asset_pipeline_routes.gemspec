@@ -16,7 +16,9 @@ Gem::Specification.new do |s|
   s.files         = Dir.glob("{lib,spec}/**/*") + %w(README.md Rakefile)
   s.require_paths = ["lib"]
 
-  s.add_development_dependency 'rails', '~> 3.2.0'
+  s.add_development_dependency 'rails', '~> 3.2.13'
+  s.add_development_dependency 'sprockets'
+  s.add_development_dependency 'coffee-script'
   s.add_development_dependency 'activesupport'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'ci_reporter'

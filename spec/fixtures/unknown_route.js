@@ -1,0 +1,1 @@
+var Bar = r(foo_path);

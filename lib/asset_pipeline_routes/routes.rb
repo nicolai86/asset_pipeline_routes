@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require "active_support/core_ext/array/extract_options"
+require 'active_support/core_ext/string/inflections'
 
 module AssetPipelineRoutes
   class Routes
@@ -16,11 +17,6 @@ module AssetPipelineRoutes
     def define_route route
       self.class.instance_eval do
         define_method :"#{route.name}_path", Path.proc_for_route(route)
-
-        define_method :"#{route.name}_path_method" do |style = :js|
-          path = Path.new(route.path.ast.to_s)
-          JsFunctionHelper::route_to_anonymous_function(path.build(*Array.new(path.number_of_replacements, ':\1')), style)
-        end
       end
     end
 
