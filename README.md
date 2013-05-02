@@ -55,6 +55,19 @@ Instead, you can now drop the `.erb` extension and use r inline:
 var url = r(user_path, 42);
 ```
 
+## Tests
+
+You can run the test suite locally using the following commands:
+
+``` bash
+$ gem install bundler
+$ cd /path/to/local/asset_pipeline_routes
+$ bundle install
+$ bundle exec rake spec
+```
+
+Whatever you do, make sure the tests stay green ;)
+
 # License
 Copyright © 2011-2013 Raphael Randschau <nicolai86@me.com>
 
