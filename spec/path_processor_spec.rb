@@ -26,46 +26,46 @@ describe AssetPipelineRoutes::PathProcessor do
   end
 
   it "replaces calls to r() with route" do
-    @env['simple_route.js'].to_s.should == "var Bar = '/users';\n"
+    expect(@env['simple_route.js'].to_s).to eql "var Bar = '/users';\n"
   end
 
   it "replaces calls with unknown route to ''" do
-    @env['unknown_route.js'].to_s.should == "var Bar = '';\n"
+    expect(@env['unknown_route.js'].to_s).to eql "var Bar = '';\n"
   end
 
   it "works with variables" do
-    @env['simple_route_with_variable.js'].to_s.should == "var x = 2;\nvar Bar = '/users/'+x+'';\n"
+    expect(@env['simple_route_with_variable.js'].to_s).to eql "var x = 2;\nvar Bar = '/users/'+x+'';\n"
   end
 
   it "works with coffeescript" do
-    @env['simple_coffee_route.js'].to_s.should == "(function() {\n  var Bar;\n\n  Bar = '/users';\n\n}).call(this);\n"
+    expect(@env['simple_coffee_route.js'].to_s).to eql "(function() {\n  var Bar;\n\n  Bar = '/users';\n\n}).call(this);\n"
   end
 
   it "works with unqualified routes" do
-    @env['unqualified_routes.js'].to_s.should == "var url = '/users/{{id}}';\n"
+    expect(@env['unqualified_routes.js'].to_s).to eql "var url = '/users/{{id}}';\n"
   end
 
   it "works with partially qualified nested routes" do
-    @env['nested_routes.js'].to_s.should == "var project_path = '/projects/'+2+'/tickets/{{id}}';\n"
+    expect(@env['nested_routes.js'].to_s).to eql "var project_path = '/projects/'+2+'/tickets/{{id}}';\n"
   end
 
   it "does not replace false positives" do
-    @env['false_positive.js'].to_s.should == "var x = receiver(y);\n";
+    expect(@env['false_positive.js'].to_s).to eql "var x = receiver(y);\n";
   end
 
   it "works as function argument" do
-    @env["function_argument.js"].to_s.should == "var url = receiver('/users');\n"
+    expect(@env["function_argument.js"].to_s).to eql "var url = receiver('/users');\n"
   end
 
   it "works with function argument" do
-    @env["argument_function.js"].to_s.should == "var url = '/users/'+fetchUserId()+'';\n"
+    expect(@env["argument_function.js"].to_s).to eql "var url = '/users/'+fetchUserId()+'';\n"
   end
 
   it "works with coffeescript method invocation" do
-    @env['coffee_with_function_invocation.js'].to_s.should == "(function() {\n  console.log('/projects/{{project_id}}/tickets/{{id}}');\n\n}).call(this);\n"
+    expect(@env['coffee_with_function_invocation.js'].to_s).to eql "(function() {\n  console.log('/projects/{{project_id}}/tickets/{{id}}');\n\n}).call(this);\n"
   end
 
   it "works with coffeescript method invocation" do
-    @env['coffee_with_function_invocation_arguments.js'].to_s.should == "(function() {\n  var x;\n\n  x = 2;\n\n  console.log('/projects/' + 2 + '/tickets/' + x + '');\n\n}).call(this);\n"
+    expect(@env['coffee_with_function_invocation_arguments.js'].to_s).to eql "(function() {\n  var x;\n\n  x = 2;\n\n  console.log('/projects/' + 2 + '/tickets/' + x + '');\n\n}).call(this);\n"
   end
 end
